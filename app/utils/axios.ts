@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { useSelector } from 'react-redux';
+import { AppConfig } from '~/config';
 import { store } from '~/redux/store';
 import { refreshTokens } from '~/redux/token';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
-  baseWsURL: 'ws://localhost:8080',
+  baseURL: AppConfig.baseUrl,
 });
 
 // Shared across concurrent 401s so we only ever refresh once at a time.
