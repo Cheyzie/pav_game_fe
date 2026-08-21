@@ -127,6 +127,10 @@ export const roomSlice = createSlice({
             state.room.results = [];
             state.room.final_results = [];
         },
+        playerRenamed: (state, action) => {
+            state.room.players = state.room.players.map(
+                p => action.payload.from == p.nickname ? {...p, nickname: action.payload.to} : p);
+        },
         playerReady: (state, action) => {
             state.room.players = state.room.players.map(p => action.payload.nickname == p.nickname ? {...p, is_ready: true} : p);
             if (action.payload.nickname === state.room.nickname)
@@ -222,4 +226,5 @@ export const roomSlice = createSlice({
     roundOver,
     gameOver,
     setAnswer,
+    playerRenamed,
 } = roomSlice.actions;

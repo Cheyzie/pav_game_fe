@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import type { Route } from '../../../+types/root';
 import { useNavigate } from 'react-router';
-import { addMessage, gameOver, gameStarted, gameWaiting, leave, playerConnected, playerDisconnected, playerLied, playerReady, playerVoted, roundOver, setAnswer, setRoomState, votingStarted} from '~/redux/room';
+import { addMessage, gameOver, gameStarted, gameWaiting, leave, playerConnected, playerDisconnected, playerLied, playerReady, playerRenamed, playerVoted, roundOver, setAnswer, setRoomState, votingStarted} from '~/redux/room';
 import styled from 'styled-components';
 import Header from './header/header';
 import Chat from './chat/chat';
@@ -71,7 +71,9 @@ export default function RoomPage() {
         case "player_disconnected":
           dispatch(playerDisconnected(newMessage.payload))
           break;
-        
+        case "player_renamed":
+          dispatch(playerRenamed(newMessage.payload))
+          break;
         case "error":
           if (newMessage.payload?.message === 'room not exists')
             toast(RoomErrorToast, {
