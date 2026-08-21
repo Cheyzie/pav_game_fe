@@ -12,6 +12,8 @@ import { GameWrapper, Outer } from './styles';
 import { toast } from 'react-toastify';
 import { RoomErrorToast } from '~/components/room_error_toast/room_error_toast';
 import { AppConfig } from '~/config';
+import { ErrorContainer } from '~/routes/auth/components/error_container/error_container';
+import { ErrorToast } from '~/components/error_toast/error_toast';
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -75,10 +77,18 @@ export default function RoomPage() {
           dispatch(playerRenamed(newMessage.payload))
           break;
         case "error":
-          if (newMessage.payload?.message === 'room not exists')
+          if (newMessage.payload?.message === 'room not exists') {
             toast(RoomErrorToast, {
               autoClose: false,
               customProgressBar: true
+            })
+            break;
+          }
+          toast(ErrorToast, {
+              data: {
+                error: newMessage.payload?.message,
+              },
+              autoClose: 3000,
             })
           break;
       }

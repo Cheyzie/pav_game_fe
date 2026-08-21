@@ -21,6 +21,9 @@
 }
 
 html, body {
+    --toastify-color-progress-light: var(--accent);
+    --toastify-color-progress-dark: var(--accent);
+
     font-family: "Archivo", "Helvetica", sans-serif;
     background: var(--bg);
     color: var(--ink);

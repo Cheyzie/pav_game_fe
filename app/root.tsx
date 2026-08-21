@@ -70,7 +70,7 @@ export default function App() {
   return <Provider store={store}>
     <PersistGate loading={<div>Loading saved data...</div>} persistor={persistor}>
       <Outlet />
-      <ToastContainer />
+      <ToastContainer  toastStyle={{ background: "transparent", padding: 0 }} />
     </PersistGate>
   </Provider> ;
 }
