@@ -20,6 +20,6 @@ export default function Lie({ question, lied, onLie }: { question: string, lied:
                 <LabelItem $warn={lie.length >= LIE_LENGTH} ref={conterRef}>0/120</LabelItem>
             </LabelContainer>
         </TitleGroup>
-        <GameButton $validated={lie.length > 0} $locked={lied} onClick={() => {(lie.length > 0) && onLie(lie)}}>{ lied ? 'LIE LOCKED' : 'SUBMIT LIE'}</GameButton>
+        <GameButton $validated={lie.length > 0} $locked={lied} onClick={() => { !lied && (lie.length > 0) && onLie(lie)}}>{ lied ? 'LIE LOCKED' : 'SUBMIT LIE'}</GameButton>
     </>);
 }

@@ -9,6 +9,6 @@ export default function Vote({ question, answer, answers, voted, onVote }: { que
             <Title>{question}</Title>
             <AnswerPick locked={voted} answers={answers} answer={answer} onChange={setVote}/>
         </TitleGroup>
-        <GameButton $validated={vote.length > 0} $locked={voted} onClick={() => {(vote.length > 0) && onVote(vote)}}>{ voted ? 'VOTE LOCKED' : 'LOCK IN VOTE'}</GameButton>
+        <GameButton $validated={vote.length > 0} $locked={voted} onClick={() => { !voted && (vote.length > 0) && onVote(vote)}}>{ voted ? 'VOTE LOCKED' : 'LOCK IN VOTE'}</GameButton>
     </>);
 }
