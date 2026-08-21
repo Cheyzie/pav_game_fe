@@ -164,7 +164,7 @@ export const roomSlice = createSlice({
                         p.score + (state.room.results.find((res) => res.nickname == p.nickname)?.score_diff ?? 0)
                 }
             });
-            state.room.phase_ends_in_ms = 30000;
+            state.room.phase_ends_in_ms = 15000;
         },
         gameOver: (state, action) => {
             state.room.state = "finished";

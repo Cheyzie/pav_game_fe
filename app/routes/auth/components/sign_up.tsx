@@ -30,23 +30,13 @@ export default function SignUp() {
                 "/api/v1/signup", 
                 { email: email, username: username, password: password}
             );
-            if (res.status > 200 && res.status < 300) {
+            if (res.status >= 200 && res.status < 300) {
                 nav('/signin');
             }
         } catch (error: any) {
             return setError(extractError(error).message);
         }
     }
-    // useEffect(() => {
-    //     if(token.accessToken) {
-    //         dispatch(getMe())
-    //     }
-    // }, [token.accessToken])
-    // useEffect(() => {
-    //     if(token.refreshToken) {
-    //         nav('/')
-    //     }
-    // }, [token.refreshToken])
 
     return (<Outer>
         <FormContainer>

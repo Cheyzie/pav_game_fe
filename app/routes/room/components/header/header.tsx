@@ -24,7 +24,7 @@ export default function Header({ code, state, round, max_rounds, seconds_left, o
             <StateBlock $warn={seconds_left<=10 && seconds_left > 0}>
                 <StateItem>{state}</StateItem>
                 <StateItem> · </StateItem>
-                <StateItem>ROUND {round} OF {max_rounds}</StateItem>
+                <StateItem>{round}/{max_rounds}</StateItem>
                 <Timer $warn={seconds_left<=10 && seconds_left > 0}>
                     {Math.trunc(seconds_left / 60)}
                     :{(seconds_left%60).toString().padStart(2, '0')}

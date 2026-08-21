@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    border-left: 1px solid var(--line);
+    flex: 0 0 120px;
+    border-top: 1px solid var(--line);
     background: var(--bg);
-    padding: 24px;
+    padding: 15px;
     display: flex;
     flex-direction: column;
     gap: 14px;
+    @media (min-width: 1000px) {  
+        border-left: 1px solid var(--line);
+        border-top: none;
+    }
 `;
 
 export const ChatLog = styled.div`

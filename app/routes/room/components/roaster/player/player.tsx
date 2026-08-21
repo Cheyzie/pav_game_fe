@@ -10,7 +10,7 @@ export default function PlayerBlock({state, player, is_me}: {state:string, playe
     } else if (player.is_ready && state == 'lobby') {
         playerState = "ready";
     }
-    return (<PlayerContainer $is_me={is_me} $connected={player.connected}>
+    return (<PlayerContainer $active={playerState !== ""} $is_me={is_me} $connected={player.connected}>
         <Nickname>{player.nickname}<span>{playerState}</span></Nickname>
         <Score>{player.score}</Score>
     </PlayerContainer>)

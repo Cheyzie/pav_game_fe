@@ -9,6 +9,8 @@ export const getMe = createAppAsyncThunk(
     async (_, {getState, rejectWithValue}) => {
         try {
             const { token } = getState(); 
+            if (!token.accessToken)
+                return;
             const res = await axiosInstance.get(
                 "/api/v1/me", 
                 { headers: {Authorization: `Bearer ${token.accessToken}`} }
