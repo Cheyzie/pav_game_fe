@@ -83,6 +83,8 @@ export const tokenSlice = createSlice({
               })
               .addCase(refreshTokens.rejected, (state, action) => {
                   state.loading = false;
+                  state.accessToken = null;
+                  state.refreshToken = null;
                   state.error = action.payload?.message ?? action.error?.message;
               })
               .addCase(login.pending, (state) => {
@@ -96,6 +98,8 @@ export const tokenSlice = createSlice({
               })
               .addCase(login.rejected, (state, action) => {
                   state.loading = false;
+                  state.accessToken = null;
+                  state.refreshToken = null;
                   state.error = action.payload?.message ?? action.error?.message;
               })
               .addCase(signOut.pending, (state) => {
@@ -109,6 +113,8 @@ export const tokenSlice = createSlice({
               })
               .addCase(signOut.rejected, (state, action) => {
                   state.loading = false;
+                  state.accessToken = null;
+                  state.refreshToken = null;
                   state.error = action.payload?.message ?? action.error?.message;
               })
       }
