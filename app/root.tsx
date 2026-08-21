@@ -33,12 +33,14 @@ export const links: Route.LinksFunction = () => [
     rel: "stylesheet",
     href: "https://googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&display=swap",
   },
-
+  {
+    rel: "stylesheet",
+    href: "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap",
+  },
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap",
   }
-
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
@@ -49,6 +51,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="color-scheme" content="light dark"></meta>
         <Meta />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
+        <link rel="manifest" href="/site.webmanifest"></link>
         <Links />
       </head>
       <body>
