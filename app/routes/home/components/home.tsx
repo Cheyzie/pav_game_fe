@@ -1,4 +1,4 @@
-import { Navigate, redirect, replace, useLocation, useNavigate } from "react-router";
+import { Navigate, useLocation, useNavigate } from "react-router";
 import { useAppDispatch, useAppSelector } from "~/redux/hooks";
 import { useEffect, useState } from "react";
 import { cleanUser, getMe } from "~/redux/user";
@@ -6,11 +6,12 @@ import type { Route } from "../../../+types/root";
 import { signOut } from "~/redux/token";
 import { TextField } from "~/routes/auth/components/text_input";
 import { createRoom, joinRoom, setRoomCode } from "~/redux/room";
-import styled from "styled-components";
-import CodeInput from "./code_input";
+import CodeInput from "./code_input/code_input";
 import { FormContainer, Logo } from "~/components/styles";
 import { SubmitButton } from "~/routes/auth/components/styles";
-import { Header, Line, Outer, SectionBreak, SignOutButton, SignOutContainer } from "./styles";
+import { CreateRoomButtonContainer, Header, Line, Outer, SectionBreak, SignOutButton, SignOutContainer } from "./styles";
+import { CreatePromptButton } from "./create_pompt_button/create_prompt_button";
+import { LangSelector } from "./lang_selector/lang_selector";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -20,6 +21,7 @@ export function meta({}: Route.MetaArgs) {
 }
 
 
+const posiblePromptLangs = ['ua', 'en'];
 
 
 export default function Home() {
@@ -28,6 +30,7 @@ export default function Home() {
     const dispatcher = useAppDispatch();
     const location = useLocation();
     const nav = useNavigate();
+    const [lang, setLang] = useState<string>("")
     const [code, setCode] = useState<string>("");
     const [nickname, setNickname] = useState<string>("")
     const room = useAppSelector( state => state.room)
@@ -86,12 +89,16 @@ export default function Home() {
         </Header>
         <Outer>
             <FormContainer>
-                {room.loading ? "loading..." : <SubmitButton $disabled={false} onClick={create}>CREATE ROOM</SubmitButton>}
+                <CreateRoomButtonContainer>
+                    <LangSelector selected={lang} langs={posiblePromptLangs} onChange={setLang}/>
+                    {room.loading ? "loading..." : <SubmitButton $disabled={false} onClick={create}>CREATE ROOM</SubmitButton>}
+                </CreateRoomButtonContainer>
                 <SectionBreak><Line/><div>OR</div><Line/></SectionBreak>
                 <CodeInput id="code" value={code} placeholder="Enter code" onCodeChange={(v: string)=>setCode(v)}/>
                 <TextField id="nick" value={nickname} placeholder="nickname in the room" onChange={(e: any)=>setNickname(e.target.value)}/>
                 {(room.error) && <p>error:{room.error}</p>}
                 {room.loading ? "loading..." : <SubmitButton $disabled={code.length < 4 || nickname.length === 0} onClick={() => { code.length === 4 && nickname.length > 0 && join()}}>JOIN</SubmitButton>}
+                <CreatePromptButton yourPromptsCount={12} onClick={() => nav('create-prompt')} />
             </FormContainer>
         </Outer>
     </>)

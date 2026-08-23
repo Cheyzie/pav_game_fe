@@ -51,3 +51,9 @@ export const Line = styled.div`
     background: var(--line);
     flex: 1;
 `;
+export const CreateRoomButtonContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+`;
