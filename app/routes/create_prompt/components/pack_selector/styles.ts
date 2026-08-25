@@ -46,14 +46,14 @@ export const InputContainer = styled.div`
 
 export const InputPrefix = styled.span`
     font-family: ui-monospace,monospace;
-    font-size: 13px;
+    font-size: 16px;
     color: var(--accent);
 `
 
 export const Input = styled.input`
     background: transparent;
     font-family: ui-monospace,monospace;
-    font-size: 13px;
+    font-size: 16px;
     color: var(--dim);
     border: none;
     outline: none;
