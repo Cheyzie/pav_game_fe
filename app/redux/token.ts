@@ -3,7 +3,7 @@ import { createAppAsyncThunk } from './hooks';
 import axios from 'axios';
 import axiosInstance from '~/utils/axios';
 import { getBrowserName } from '~/routes/auth/utils/get_browser_name';
-import { extractError } from '~/routes/room/utils/extrat_error';
+import { extractError } from '~/utils/extrat_error';
 import { AppConfig } from '~/config';
 
 

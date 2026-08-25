@@ -39,6 +39,7 @@ export const userSlice = createSlice({
         builder
             .addCase(getMe.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(getMe.fulfilled, (state, action) => {
                 state.loading = false;

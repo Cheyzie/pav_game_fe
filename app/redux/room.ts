@@ -3,6 +3,7 @@ import { createAppAsyncThunk } from "./hooks";
 import axiosInstance from "~/utils/axios";
 import type { Room } from "~/types/room";
 import { AppConfig } from "~/config";
+import { extractError } from "~/utils/extrat_error";
 const initialState: {
     room: Room, 
     token: string|null,
@@ -12,6 +13,7 @@ const initialState: {
     room: {
         code: "", 
         nickname: "", 
+        prompts_written_in: "ua",
         max_rounds: 1,
         round: 1,
         state: "lobby",
@@ -45,8 +47,7 @@ export const joinRoom = createAppAsyncThunk(
             )
             return {...res.data, code: conn.code}
         } catch (error: any) {
-            const message = error.response?.data?.message || error.message || 'Something went wrong';
-            return rejectWithValue(message);
+            return rejectWithValue(extractError(error));
         }
     }
 )
@@ -55,18 +56,15 @@ export const createRoom = createAppAsyncThunk(
     'room/create',
     async (_, {getState, rejectWithValue}) => {
         try {
-            const { token } = getState(); 
+            const { token, room } = getState(); 
             const res = await axiosInstance.post(
                 `${AppConfig.baseUrl}/api/v1/rooms`, 
-                {},
+                {prompts_written_in: room.room.prompts_written_in},
                 { headers: {Authorization: `Bearer ${token.accessToken}`} }
             )
-            if (res.status == 401) {
-                rejectWithValue(res.data)
-            }
             return res.data
         } catch (error: any) {
-            rejectWithValue(error.Error)
+            return rejectWithValue(extractError(error));
         }
     }
 )
@@ -79,6 +77,10 @@ export const roomSlice = createSlice({
             state.room.code = "";
             state.token = null;
             state.room.nickname = "";
+        },
+
+        setRoomPromptsWrittenIn: (state, action) => {
+            state.room.prompts_written_in = action.payload;
         },
         setRoomCode: (state, action) => {
             state.room.code = action.payload;
@@ -174,12 +176,17 @@ export const roomSlice = createSlice({
             state.room.state = "finished";
             state.room.final_results = action.payload.final_results ?? []
             state.room.phase_ends_in_ms = null;
+        },
+        gameRestarted: (state) => {
+            state.room.round = 0;
+            state.room.players.map(p => {return { ...p, score: 0,}});
         }
     },
     extraReducers: builder => {
         builder
             .addCase(joinRoom.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(joinRoom.fulfilled, (state, action) => {
                 state.loading = false;
@@ -192,11 +199,12 @@ export const roomSlice = createSlice({
                 state.token = null;
                 state.room.code = ""
                 console.log(action)
-                state.error = action.payload?.message
+                state.error = action.payload?.message ?? action.error?.message
                 
             })
             .addCase(createRoom.pending, (state) => {
                 state.loading = true;
+                state.error = null;
             })
             .addCase(createRoom.fulfilled, (state, action) => {
                 state.loading = false;
@@ -204,7 +212,7 @@ export const roomSlice = createSlice({
             })
             .addCase(createRoom.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error?.message;
+                state.error = action.payload?.message ?? action.error?.message;
             })             
     }
   })
@@ -227,4 +235,6 @@ export const roomSlice = createSlice({
     gameOver,
     setAnswer,
     playerRenamed,
+    setRoomPromptsWrittenIn,
+    gameRestarted,
 } = roomSlice.actions;

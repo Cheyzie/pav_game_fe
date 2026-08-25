@@ -4,6 +4,7 @@ import type { FinalPlayerResult, Player, PlayerResult } from "./player";
 export interface Room {
     code: string;
     nickname: string;
+    prompts_written_in: string;
     max_rounds: number;
     round: number;
     state: string;

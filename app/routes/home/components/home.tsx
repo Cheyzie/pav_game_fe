@@ -5,13 +5,16 @@ import { cleanUser, getMe } from "~/redux/user";
 import type { Route } from "../../../+types/root";
 import { signOut } from "~/redux/token";
 import { TextField } from "~/routes/auth/components/text_input";
-import { createRoom, joinRoom, setRoomCode } from "~/redux/room";
+import { createRoom, joinRoom, setRoomCode, setRoomPromptsWrittenIn } from "~/redux/room";
 import CodeInput from "./code_input/code_input";
 import { FormContainer, Logo } from "~/components/styles";
 import { SubmitButton } from "~/routes/auth/components/styles";
 import { CreateRoomButtonContainer, Header, Line, Outer, SectionBreak, SignOutButton, SignOutContainer } from "./styles";
 import { CreatePromptButton } from "./create_pompt_button/create_prompt_button";
 import { LangSelector } from "./lang_selector/lang_selector";
+import { getPromptsCount } from "~/redux/prompts_count";
+import { toast } from "react-toastify";
+import { ErrorToast } from "~/components/error_toast/error_toast";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -27,13 +30,19 @@ const posiblePromptLangs = ['ua', 'en'];
 export default function Home() {
     const user = useAppSelector(state => state.user);
     const token = useAppSelector(state => state.token);
+    const promptsCount = useAppSelector(state => state.promptsCount);
+    const room = useAppSelector( state => state.room)
     const dispatcher = useAppDispatch();
     const location = useLocation();
     const nav = useNavigate();
-    const [lang, setLang] = useState<string>("")
+    const [lang, setLang] = useState<string>(room.room.prompts_written_in)
     const [code, setCode] = useState<string>("");
     const [nickname, setNickname] = useState<string>("")
-    const room = useAppSelector( state => state.room)
+
+    useEffect(() => {
+            dispatcher(getPromptsCount())
+        }, [])
+
     useEffect(() => {
         if (!user.user)
             dispatcher(getMe());
@@ -53,10 +62,31 @@ export default function Home() {
     }, [room.room.code])
 
     useEffect(() => {
-        if (room.room.code != "") {
-            dispatcher(setRoomCode(code));
+        if (room.error) {
+            toast(ErrorToast, {
+                          data: {
+                            error: room.error,
+                          },
+                          autoClose: 3000,
+                        })
         }
+    }, [room.error])
+
+    useEffect(() => {
+        dispatcher(setRoomCode(code));
+        
     }, [code])
+
+    useEffect(() => {
+        if (room.room.prompts_written_in != "") {
+            setLang(room.room.prompts_written_in)
+        }
+    }, [room.room.prompts_written_in])
+
+    useEffect(() => {
+            dispatcher(setRoomPromptsWrittenIn(lang));
+    }, [lang])
+
 
     useEffect(() => {
         if (room.token != null) {
@@ -91,14 +121,14 @@ export default function Home() {
             <FormContainer>
                 <CreateRoomButtonContainer>
                     <LangSelector selected={lang} langs={posiblePromptLangs} onChange={setLang}/>
-                    {room.loading ? "loading..." : <SubmitButton $disabled={false} onClick={create}>CREATE ROOM</SubmitButton>}
+                    {room.loading ? "loading..." : <SubmitButton $disabled={room.loading} onClick={create}>CREATE ROOM</SubmitButton>}
                 </CreateRoomButtonContainer>
                 <SectionBreak><Line/><div>OR</div><Line/></SectionBreak>
                 <CodeInput id="code" value={code} placeholder="Enter code" onCodeChange={(v: string)=>setCode(v)}/>
                 <TextField id="nick" value={nickname} placeholder="nickname in the room" onChange={(e: any)=>setNickname(e.target.value)}/>
-                {(room.error) && <p>error:{room.error}</p>}
-                {room.loading ? "loading..." : <SubmitButton $disabled={code.length < 4 || nickname.length === 0} onClick={() => { code.length === 4 && nickname.length > 0 && join()}}>JOIN</SubmitButton>}
-                <CreatePromptButton yourPromptsCount={12} onClick={() => nav('create-prompt')} />
+                
+                { <SubmitButton $disabled={room.loading || code.length < 4 || nickname.length === 0} onClick={() => { code.length === 4 && nickname.length > 0 && join()}}>JOIN</SubmitButton>}
+                <CreatePromptButton yourPromptsCount={promptsCount.count} onClick={() => nav('create-prompt')} />
             </FormContainer>
         </Outer>
     </>)
