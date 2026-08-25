@@ -13,6 +13,7 @@ export const Wrapper = styled.div`
 
 export const Header = styled.div`
     padding: 11px;
+    padding-bottom: 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -31,7 +32,7 @@ export const HeaderItem = styled.div`
 `
 
 export const FormContainer = styled.div`
-    padding: 10px 0;
+    padding: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -45,13 +46,14 @@ export const FormContainer = styled.div`
 
 export const InputsContainer = styled.div`
     height: 100%;
-    flex: 1;
-    padding: 10px 22px;
+    flex: 0 1;
+    padding: 11px 22px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 11px;
     border-right: 1px solid var(--line);
     @media (min-width: 1000px) {
+        flex: 1;
         padding: 48px;
         height: 100%;
         gap: 24px;
@@ -73,7 +75,9 @@ export const Subtitle = styled.div`
     line-height: 1.45;
     color: var(--dim);
     max-width: 460px;
+    margin-top: -6px;
     @media (min-width: 1000px) {
+        margin-top: 0;
         font-size: 15px;
     }
 `
@@ -138,13 +142,15 @@ export const AnswerInput = styled.input`
 
 export const SideContainer = styled.div`
     width: 100%;
+    flex: 1;
     box-sizing: border-box;
     padding: 11px 22px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 12px;
+    gap: 11px;
     @media (min-width: 1000px) {
+        flex: 0 1 max(30%, 420px);
         gap: 22px;
         padding: 48px;
         background: var(--panel);
@@ -157,7 +163,10 @@ export const SelectsContainer = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 8px;
+    @media (min-width: 1000px) {
+        gap: 22px;
+    }
 `
 
 export const ButtonBlock = styled.div`
