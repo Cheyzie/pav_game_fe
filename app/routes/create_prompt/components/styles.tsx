@@ -6,7 +6,7 @@ export const Wrapper = styled.div`
     box-sizing: border-box;
     background: var(--bg);
     border: 1px solid var(--line);
-    overflow: hidden;
+    overflow: auto;
     display: flex;
     flex-direction: column;
     @media (min-width: 1000px) {

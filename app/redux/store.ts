@@ -67,7 +67,7 @@ const userPersistConfig = {
 const roomPersistConfig = {
   key: 'room',
   storage,
-  whitelist: ['token'],
+  whitelist: ['token', 'room'],
 };
 // 3. Create the persisted reducer
 const persistedReducer = combineReducers({
