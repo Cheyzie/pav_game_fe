@@ -2,13 +2,17 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     box-sizing: border-box;
     background: var(--bg);
     border: 1px solid var(--line);
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    @media (min-width: 1000px) {
+        height: 100%;
+        overflow: hidden;
+    }
 `
 
 export const Header = styled.div`
