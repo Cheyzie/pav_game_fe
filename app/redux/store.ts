@@ -12,6 +12,8 @@ import {
 } from 'redux-persist';
 import { userSlice } from "./user";
 import { roomSlice } from "./room";
+import { categoriesSlice } from "./categories";
+import { promptsCountSlice } from "./prompts_count";
 
 const noopStorage = {
   getItem: () => Promise.resolve(null),
@@ -65,13 +67,15 @@ const userPersistConfig = {
 const roomPersistConfig = {
   key: 'room',
   storage,
-  whotelist: ['token'],
+  whitelist: ['token'],
 };
 // 3. Create the persisted reducer
 const persistedReducer = combineReducers({
   token: persistReducer(tokenPersistConfig, tokenSlice.reducer),
   user: userSlice.reducer,
   room: persistReducer(roomPersistConfig, roomSlice.reducer),
+  categories: categoriesSlice.reducer,
+  promptsCount: promptsCountSlice.reducer,
 });
 
 // 4. Configure the store with serialization checks ignored for redux-persist actions

@@ -8,7 +8,7 @@ import { Description, LinkContainer, Outer, Phrase, SubmitButton } from "./style
 import { FormContainer, Logo } from "~/components/styles";
 import axiosInstance from "~/utils/axios";
 import { ErrorContainer } from "./error_container/error_container";
-import { extractError } from "~/routes/room/utils/extrat_error";
+import { extractError } from "~/utils/extrat_error";
 
 export function meta({}: Route.ActionArgs) {
   return [

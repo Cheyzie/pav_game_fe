@@ -6,7 +6,9 @@ import axios from "axios";
 // down, CORS, timeout).
 export const extractError = (error: unknown): { message: string } => {
     if (axios.isAxiosError(error)) {
-        return { message: error.response?.data?.message || error.message };
+        const message = error.response?.data?.message || error.message;
+        console.log(message);
+        return { message: message };
     }
     return { message: error instanceof Error ? error.message : 'Something went wrong' };
 };
