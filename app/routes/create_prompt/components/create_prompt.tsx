@@ -67,6 +67,7 @@ export default function CreatePrompt() {
             setQuestion("");
             setCategory(null);
             dispatch(getPromptsCount());
+            dispatch(getCategories());
         } else {
             toast(ErrorToast, {
                 autoClose: 5000,
